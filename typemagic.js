@@ -44,7 +44,8 @@ HTMLElement.prototype.type = function(op){
 				chain = chain.concat(arguments.callee(ne));
 				chain.push(str.substring(last));
 			}else if(ne.nodeType==3){
-				chain = chain.concat(ne.textContent.trim().split(''));
+				var arr = ne.textContent.match(/(\s+|[^\s.])/g);
+				if(arr)	chain = chain.concat(arr);
 			}
 		}
 		return chain;
