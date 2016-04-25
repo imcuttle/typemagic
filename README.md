@@ -2,6 +2,8 @@
 
 [The Article About It(Tell You Why Choose It)](http://moyuyc.github.io/2016/04/25/js实现打字机效果/)
 
+[Demo](http://moyuyc.github.io/2016/04/25/js实现打字机效果/)
+
 > 简单，高效，轻量，通用，自由
 
 ## How To Play?
