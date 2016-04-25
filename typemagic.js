@@ -10,7 +10,7 @@ HTMLElement.prototype.type = function(op){
 	dest.innerHTML='';
 	var time = setInterval(function(){
 		var str = chain.shift();
-		while(str.length>1){
+		while(str.length>1&&str.trim()!=''){
 			html+=str;
 			dest.innerHTML=html;
 			str = chain.shift();
@@ -44,7 +44,7 @@ HTMLElement.prototype.type = function(op){
 				chain = chain.concat(arguments.callee(ne));
 				chain.push(str.substring(last));
 			}else if(ne.nodeType==3){
-				var arr = ne.textContent.match(/(\s+|[^\s.])/g);
+				var arr = ne.textContent.match(/(\s+|[^\s])/g);
 				if(arr)	chain = chain.concat(arr);
 			}
 		}
