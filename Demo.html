@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="Generator" content="EditPlus®">
+  <meta name="Author" content="">
+  <meta name="Keywords" content="">
+  <meta name="Description" content="">
+  <title>Type</title>
+  <style>
+	td,th{border:1px solid black;}
+  </style>
+ </head>
+ <body>
+	<div id='src' style='width:45%;margin-right:20px;display:inline-block;float:left;'>
+	<table><thead><tr><th>项目</th><th style="text-align:right">价格</th><th style="text-align:center">数量</th></tr></thead><tbody><tr><td>计算机</td><td style="text-align:right">$1600</td><td style="text-align:center">5</td></tr><tr><td>手机</td><td style="text-align:right">$12</td><td style="text-align:center">12</td></tr><tr><td>管线</td><td style="text-align:right">$1</td><td style="text-align:center">234</td></tr></tbody></table>
+		<pre><span class="line"><span class="selector-tag">body</span>{<span class="attribute">background-color</span>:<span class="number">#E9E9E9</span>;}</span><br><span class="line"><span class="selector-class">.img-wf</span>{</span><br><span class="line">	<span class="attribute">width</span>:<span class="number">75%</span>;</span><br><span class="line">	<span class="attribute">padding</span>:<span class="number">0</span>;</span><br><span class="line">	<span class="attribute">margin</span>: auto;</span><br><span class="line">	<span class="attribute">list-style</span>:none;</span><br><span class="line">}</span><br><span class="line"><span class="selector-class">.img-wf</span> <span class="selector-tag">li</span>{</span><br><span class="line">	<span class="attribute">position</span>:relative;</span><br><span class="line">	<span class="attribute">padding</span>: <span class="number">3px</span> <span class="number">1%</span> <span class="number">3px</span>;</span><br><span class="line">	<span class="attribute">float</span>:left;</span><br><span class="line">	<span class="attribute">width</span>: <span class="number">23%</span>;</span><br><span class="line">}</span><br><span class="line"><span class="selector-class">.img-wf</span> <span class="selector-tag">li</span> <span class="selector-tag">img</span>{</span><br><span class="line">	<span class="attribute">width</span>:<span class="number">100%</span>;</span><br><span class="line">}</span><br><span class="line"><span class="selector-class">.img-wf</span> <span class="selector-class">.img-item</span>{</span><br><span class="line">	<span class="attribute">background-color</span>:white;</span><br><span class="line">	<span class="attribute">padding</span>: <span class="number">4px</span>;</span><br><span class="line">	<span class="attribute">margin-bottom</span>: <span class="number">15px</span>;</span><br><span class="line">}</span><br><span class="line"><span class="selector-class">.img-wf</span> <span class="selector-class">.img-item</span><span class="selector-pseudo">:hover</span>{</span><br><span class="line">	<span class="attribute">transition</span>: <span class="number">0.4s</span>;</span><br><span class="line">	<span class="attribute">transform</span>:<span class="built_in">scale</span>(1.05,1.05);</span><br><span class="line">	<span class="attribute">box-shadow</span>: <span class="number">6px</span> <span class="number">6px</span> <span class="number">3px</span> gray;</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line">@<span class="keyword">keyframes</span> fadeIn {</span><br><span class="line">	0% {<span class="attribute">opacity</span>: <span class="number">0</span>; <span class="comment">/*初始状态 透明度为0*/</span>}</span><br><span class="line">	100% {<span class="attribute">opacity</span>: <span class="number">1</span>; <span class="comment">/*结尾状态 透明度为1*/</span>}</span><br><span class="line">}</span><br><span class="line"><span class="selector-class">.animate</span>{</span><br><span class="line">	<span class="attribute">animation</span>:fadeIn <span class="number">1.5s</span>;</span><br><span class="line">}</span><br></pre>
+		
+	</div>
+
+	<div style='width:45%;display:inline-block;float:left;' id='dest'></div>
+  <script>
+	HTMLElement.prototype.type = function(op){
+	op = Object.extend({
+		delay:85,
+		dest:this,
+		twinkle:'|'
+	},op);
+	var chain = makeChain(this),f=false,html='';
+	console.log(chain);
+	var dest = op.dest;
+	dest.innerHTML='';
+	var time = setInterval(function(){
+		var str = chain.shift();
+		while(str.length>1){
+			html+=str;
+			dest.innerHTML=html;
+			str = chain.shift();
+			if(!chain.length){ 
+				clearInterval(time);
+				return;
+			}
+		}
+		html+=str;
+		if(!chain.length){ 
+			dest.innerHTML=html
+			clearInterval(time);
+			return;
+		}
+		dest.innerHTML=html+(f?op.twinkle:' ');
+		f=!f;
+	},op.delay);
+	function makeChain(node){
+		var nodes = node.childNodes;
+		var chain = [];
+		for(var i=0;i < nodes.length;i++){
+			var ne = nodes[i];
+			if(ne.nodeType==1){
+				if(ne.tagName=='SCRIPT'){
+					chain.push(ne.outerHTML);
+					continue;
+				}
+				var str = ne.cloneNode().outerHTML;
+				var last = str.lastIndexOf('<');
+				chain.push(str.substring(0,last));
+				chain = chain.concat(arguments.callee(ne));
+				chain.push(str.substring(last));
+			}else if(ne.nodeType==3){
+				chain = chain.concat(ne.textContent.trim().split(''));
+			}
+		}
+		return chain;
+	}
+}
+Object.extend = function(){
+	if(!arguments || !arguments.length) return {};
+	var rlt = arguments[0];
+	for(var i=0;i<arguments.length;i++){
+		var argu = arguments[i];
+		for(var k in argu)
+			rlt[k] = argu[k];
+	}
+	return rlt;
+}
+
+document.getElementById('src').type({
+		delay: 85,
+		dest: document.getElementById('dest'),
+		twinkle:'_'
+});
+</script>
+ </body>
+</html>
